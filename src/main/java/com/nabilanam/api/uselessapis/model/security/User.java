@@ -44,7 +44,7 @@ public class User {
 	private String email;
 
 	@NotBlank
-	@Size(max = 40)
+	@Size(max = 100)
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -56,7 +56,7 @@ public class User {
 	public User() {
 	}
 
-	public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 40) String password, Set<Role> roles) {
+	public User(@NotBlank @Size(max = 40) String name, @NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 100) String password, Set<Role> roles) {
 		this.name = name;
 		this.username = username;
 		this.email = email;
