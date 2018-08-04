@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @Service
 public class DownloadLinkApiService {
@@ -23,12 +22,6 @@ public class DownloadLinkApiService {
 	public DownloadLink getDownloadLink(ApiHost apiHost, URL trackUrl) throws IOException {
 		if (apiHost == ApiHost.SOUNDCLOUD){
 			return soundCloudService.getDownloadLink(trackUrl);
-		} else throw new ApiNotFoundException("Api not found for "+apiHost.name());
-	}
-
-	public List<DownloadLink> getDownloadLinks(ApiHost apiHost, URL playlistUrl) throws IOException {
-		if (apiHost == ApiHost.SOUNDCLOUD){
-			return soundCloudService.getDownloadLinks(playlistUrl);
 		} else throw new ApiNotFoundException("Api not found for "+apiHost.name());
 	}
 }

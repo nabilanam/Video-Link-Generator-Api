@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.startup;
+package com.nabilanam.api.uselessapis.bean;
 
 import com.nabilanam.api.uselessapis.service.security.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
