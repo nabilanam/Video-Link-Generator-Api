@@ -7,11 +7,9 @@ import java.net.URL;
 @Data
 public class DownloadLink {
 
-	private String title;
 	private URL url;
 
-	public DownloadLink(String title, URL url) {
-		this.title = title;
+	public DownloadLink(URL url) {
 		this.url = url;
 	}
 }

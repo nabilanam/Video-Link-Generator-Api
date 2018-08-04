@@ -16,5 +16,5 @@ import java.net.URL;
 public class DownloadLinkApiRequest {
 
 	private ApiHost apiHost;
-	private URL url;
+	private URL trackUrl;
 }

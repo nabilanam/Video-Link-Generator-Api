@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/service/downloadlink")
@@ -29,15 +28,6 @@ public class DownloadLinkApiController {
 					headers = {"content-type=application/json"}
 			)
 	public DownloadLink getDownloadLink(@RequestBody DownloadLinkApiRequest request) throws IOException {
-		return service.getDownloadLink(request.getApiHost(), request.getUrl());
-	}
-
-	@PostMapping
-			(
-					value = "/playlist/",
-					headers = {"content-type=application/json"}
-			)
-	public List<DownloadLink> getDownloadLinks(@RequestBody DownloadLinkApiRequest request) throws IOException {
-		return service.getDownloadLinks(request.getApiHost(), request.getUrl());
+		return service.getDownloadLink(request.getApiHost(), request.getTrackUrl());
 	}
 }
