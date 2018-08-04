@@ -33,11 +33,11 @@ public class User {
 	@Size(max = 40)
 	private String name;
 
+	@NaturalId
 	@NotBlank
 	@Size(max = 20)
 	private String username;
 
-	@NaturalId
 	@NotBlank
 	@Size(max = 40)
 	@Email

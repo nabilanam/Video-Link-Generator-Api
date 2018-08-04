@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.security;
+package com.nabilanam.api.uselessapis.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
