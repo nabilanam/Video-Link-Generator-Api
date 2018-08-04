@@ -13,8 +13,7 @@ import java.net.URL;
 public class DownloadLinkManagedRequest {
 
 	private ApiHost apiHost;
-
 	private URL apiUrl;
-
+	private URL playlistApiUrl;
 	private String clientSecret;
 }

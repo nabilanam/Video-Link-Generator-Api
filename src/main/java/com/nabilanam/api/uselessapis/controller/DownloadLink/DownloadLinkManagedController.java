@@ -40,15 +40,16 @@ public class DownloadLinkManagedController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public DownloadLinkManaged createDownloaderApi(@RequestBody DownloadLinkManagedRequest managedRequest) {
 		ApiHost apiHost = managedRequest.getApiHost();
-		URL url = managedRequest.getApiUrl();
+		URL apiUrl = managedRequest.getApiUrl();
+		URL playlistApiUrl = managedRequest.getPlaylistApiUrl();
 		String secret = managedRequest.getClientSecret();
-		DownloadLinkManaged linkManaged = new DownloadLinkManaged(apiHost, url, secret);
+		DownloadLinkManaged linkManaged = new DownloadLinkManaged(apiHost, apiUrl, playlistApiUrl, secret);
 		return downloadLinkManagedRepository.save(linkManaged);
 	}
 
 	@GetMapping
 			(
-					value = "/{id}",
+					value = "/{id}/",
 					headers = {"content-type=application/json"}
 			)
 	@ResponseStatus(HttpStatus.OK)
@@ -61,7 +62,7 @@ public class DownloadLinkManagedController {
 
 	@PutMapping
 			(
-					value = "/{id}",
+					value = "/{id}/",
 					headers = {"content-type=application/json"},
 					consumes = MediaType.APPLICATION_JSON_VALUE
 			)
@@ -78,7 +79,7 @@ public class DownloadLinkManagedController {
 
 	@DeleteMapping
 			(
-					value = "/{id}",
+					value = "/{id}/",
 					headers = {"content-type=application/json"}
 			)
 	@ResponseStatus(HttpStatus.OK)
