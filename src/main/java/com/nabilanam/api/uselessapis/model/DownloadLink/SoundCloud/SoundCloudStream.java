@@ -1,11 +1,11 @@
-package com.nabilanam.api.uselessapis.model.DownloadLink;
+package com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud;
 
 import lombok.Data;
 
 import java.net.URL;
 
 @Data
-public class SoundCloudApi {
+public class SoundCloudStream {
 	private URL http_mp3_128_url;
 	private URL hls_mp3_128_url;
 	private URL hls_opus_64_url;

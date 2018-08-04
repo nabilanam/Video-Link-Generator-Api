@@ -24,14 +24,16 @@ public class DownloadLinkManaged {
 	@Enumerated(EnumType.STRING)
 	private ApiHost apiHost;
 
-	@Column(name = "url")
 	private URL apiUrl;
+
+	private URL playlistApiUrl;
 
 	private String clientSecret;
 
-	public DownloadLinkManaged(ApiHost apiHost, URL apiUrl, String clientSecret) {
+	public DownloadLinkManaged(ApiHost apiHost, URL apiUrl, URL playlistApiUrl, String clientSecret) {
 		this.apiHost = apiHost;
 		this.apiUrl = apiUrl;
+		this.playlistApiUrl = playlistApiUrl;
 		this.clientSecret = clientSecret;
 	}
 }
