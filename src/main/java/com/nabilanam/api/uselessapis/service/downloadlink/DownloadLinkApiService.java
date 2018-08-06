@@ -1,8 +1,8 @@
-package com.nabilanam.api.uselessapis.service.DownloadLink;
+package com.nabilanam.api.uselessapis.service.downloadlink;
 
 import com.nabilanam.api.uselessapis.exception.ApiNotFoundException;
 import com.nabilanam.api.uselessapis.model.ApiHost;
-import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLink;
+import com.nabilanam.api.uselessapis.model.downloadlink.DownloadLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

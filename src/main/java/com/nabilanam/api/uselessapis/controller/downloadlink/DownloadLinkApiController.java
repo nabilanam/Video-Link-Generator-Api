@@ -1,8 +1,8 @@
-package com.nabilanam.api.uselessapis.controller.DownloadLink;
+package com.nabilanam.api.uselessapis.controller.downloadlink;
 
-import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLink;
-import com.nabilanam.api.uselessapis.request.DownloadLink.DownloadLinkApiRequest;
-import com.nabilanam.api.uselessapis.service.DownloadLink.DownloadLinkApiService;
+import com.nabilanam.api.uselessapis.model.downloadlink.DownloadLink;
+import com.nabilanam.api.uselessapis.request.downloadlink.DownloadLinkApiRequest;
+import com.nabilanam.api.uselessapis.service.downloadlink.DownloadLinkApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

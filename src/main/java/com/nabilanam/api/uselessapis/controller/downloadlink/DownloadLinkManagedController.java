@@ -1,10 +1,10 @@
-package com.nabilanam.api.uselessapis.controller.DownloadLink;
+package com.nabilanam.api.uselessapis.controller.downloadlink;
 
 import com.nabilanam.api.uselessapis.exception.ApiNotFoundException;
 import com.nabilanam.api.uselessapis.model.ApiHost;
-import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLinkManaged;
+import com.nabilanam.api.uselessapis.model.downloadlink.DownloadLinkManaged;
 import com.nabilanam.api.uselessapis.repository.DownloadLink.DownloadLinkManagedRepository;
-import com.nabilanam.api.uselessapis.request.DownloadLink.DownloadLinkManagedRequest;
+import com.nabilanam.api.uselessapis.request.downloadlink.DownloadLinkManagedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

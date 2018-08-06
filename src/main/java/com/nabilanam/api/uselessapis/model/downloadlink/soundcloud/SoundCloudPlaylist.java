@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud;
+package com.nabilanam.api.uselessapis.model.downloadlink.soundcloud;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

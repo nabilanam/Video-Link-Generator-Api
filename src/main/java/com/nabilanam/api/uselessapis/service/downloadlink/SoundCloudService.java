@@ -1,12 +1,12 @@
-package com.nabilanam.api.uselessapis.service.DownloadLink;
+package com.nabilanam.api.uselessapis.service.downloadlink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nabilanam.api.uselessapis.model.ApiHost;
-import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLink;
-import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLinkManaged;
-import com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud.SoundCloudPlaylist;
-import com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud.SoundCloudStream;
-import com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud.SoundCloudTrack;
+import com.nabilanam.api.uselessapis.model.downloadlink.DownloadLink;
+import com.nabilanam.api.uselessapis.model.downloadlink.DownloadLinkManaged;
+import com.nabilanam.api.uselessapis.model.downloadlink.soundcloud.SoundCloudPlaylist;
+import com.nabilanam.api.uselessapis.model.downloadlink.soundcloud.SoundCloudStream;
+import com.nabilanam.api.uselessapis.model.downloadlink.soundcloud.SoundCloudTrack;
 import com.nabilanam.api.uselessapis.repository.DownloadLink.DownloadLinkManagedRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,8 +49,8 @@ public class SoundCloudService {
 		DownloadLinkManaged linkManaged = repository.findByApiHost(ApiHost.SOUNDCLOUD);
 		URL playlistApiUrl = linkManaged.getPlaylistApiUrl();
 		String clientKey = linkManaged.getClientSecret();
-		String playListId = getIdFromWeb(playListUrl);
-		URL url = getCustomizedUrl(playlistApiUrl, clientKey, playListId);
+		String id = getIdFromWeb(playListUrl);
+		URL url = getCustomizedUrl(playlistApiUrl, clientKey, id);
 		SoundCloudPlaylist soundCloudPlaylist = objectMapper.readValue(url, SoundCloudPlaylist.class);
 		List<SoundCloudTrack> tracks = soundCloudPlaylist.getTracks();
 		List<DownloadLink> downloadLinks = new ArrayList<>();

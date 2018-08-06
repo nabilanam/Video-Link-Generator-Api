@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.model.DownloadLink;
+package com.nabilanam.api.uselessapis.model.downloadlink;
 
 import com.nabilanam.api.uselessapis.model.ApiHost;
 import lombok.Getter;
