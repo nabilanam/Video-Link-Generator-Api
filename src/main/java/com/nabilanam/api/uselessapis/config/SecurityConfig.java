@@ -3,6 +3,7 @@ package com.nabilanam.api.uselessapis.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticationEntryPoint(restAuthenticationEntryPoint)
 				.and()
 				.authorizeRequests()
+				.antMatchers(HttpMethod.OPTIONS,"/service/**").permitAll()
 				.antMatchers("/managed/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/**").access("hasRole('ROLE_USER')")
 				.and()
@@ -47,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.headers()
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET"))
-				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Max-Age", "3600"))
+//				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Max-Age", "3600"))
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"))
 				.and()
