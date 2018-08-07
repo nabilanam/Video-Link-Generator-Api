@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/managed/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/**").access("hasRole('ROLE_USER')")
 				.and()
+				.csrf()
+				.disable()
 				.httpBasic();
 	}
 }
