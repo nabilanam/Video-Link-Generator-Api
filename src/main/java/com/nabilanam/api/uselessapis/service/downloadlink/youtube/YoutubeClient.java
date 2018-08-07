@@ -1,20 +1,63 @@
 package com.nabilanam.api.uselessapis.service.downloadlink.youtube;
 
 import lombok.Data;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Data
 @Component
 public class YoutubeClient {
 
-	@Autowired
-	private YoutubeIdFinder idFinder;
+	private final YoutubeIdFinder idFinder;
 
-	private String generateEmbedUrl(String videoId){
-		return "https://www.youtube.com/embed/"+videoId;
+	@Autowired
+	public YoutubeClient(YoutubeIdFinder idFinder) {
+		this.idFinder = idFinder;
+	}
+
+	Optional<Integer> getSts(String videoUrl) throws IOException {
+		Integer sts = null;
+		boolean found = false;
+		Document document = Jsoup.connect(videoUrl).get();
+		Elements scripts = document.getElementsByTag("script");
+		for (Element script : scripts) {
+			List<DataNode> dataNodes = script.dataNodes();
+			for (DataNode node : dataNodes) {
+				if (node.getWholeData().startsWith("var ytplayer")) {
+					String wholeData = node.getWholeData();
+					String stsStr = "\"sts\":";
+					int index = wholeData.indexOf("\"sts\":");
+					wholeData = wholeData.substring(index);
+					int endIndex = wholeData.length();
+					int commaIndex = wholeData.indexOf(",");
+					int braceIndex = wholeData.indexOf("}");
+					if ((commaIndex > -1) && (braceIndex > -1)) {
+						if (commaIndex < braceIndex) {
+							endIndex = commaIndex;
+						} else endIndex = braceIndex;
+					} else if (commaIndex > -1) {
+						endIndex = commaIndex;
+					} else if (braceIndex > -1) {
+						endIndex = braceIndex;
+					}
+					sts = Integer.parseInt(wholeData.substring(stsStr.length(), endIndex));
+					found = true;
+					break;
+				}
+			}
+			if (found) break;
+		}
+		return Optional.ofNullable(sts);
 	}
 
 	String parseVideoId(@NotNull String url) {
@@ -29,12 +72,12 @@ public class YoutubeClient {
 
 		// https://youtu.be/yIVRs6YSbOM
 		if (videoId.isEmpty()) {
-			videoId = idFinder.findVideoId(url,shortUrlRegex);
+			videoId = idFinder.findVideoId(url, shortUrlRegex);
 		}
 
 		// https://www.youtube.com/embed/yIVRs6YSbOM
 		if (videoId.isEmpty()) {
-			videoId = idFinder.findVideoId(url,embedUrlRegex);
+			videoId = idFinder.findVideoId(url, embedUrlRegex);
 		}
 
 		return videoId;

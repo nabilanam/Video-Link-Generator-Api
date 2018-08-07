@@ -12,9 +12,4 @@ public class Beans {
 	public ObjectMapper ObjectMapper() {
 		return new ObjectMapper();
 	}
-
-	@Bean
-	public YoutubeClient YoutubeClient() {
-		return new YoutubeClient();
-	}
 }
