@@ -4,14 +4,12 @@ import com.nabilanam.api.uselessapis.model.DownloadLink.DownloadLink;
 import com.nabilanam.api.uselessapis.request.DownloadLink.DownloadLinkApiRequest;
 import com.nabilanam.api.uselessapis.service.DownloadLink.DownloadLinkApiService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/service/downloadlink")
 public class DownloadLinkApiController {
