@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.csrf()
+				.disable()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
@@ -44,8 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/managed/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/**").access("hasRole('ROLE_USER')")
 				.and()
-				.csrf()
-				.disable()
 				.headers()
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
 				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET"))
