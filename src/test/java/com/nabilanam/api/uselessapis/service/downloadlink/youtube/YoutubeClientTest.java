@@ -22,20 +22,20 @@ public class YoutubeClientTest {
 
 	private static Logger LOGGER = Logger.getLogger(YoutubeClientTest.class.getName());
 
-	@Test
-	public void whenGivenEmbedUrl_thenReturnsSTS() throws IOException {
-		//given
-		String videoUrl = "https://www.youtube.com/watch?v=yIVRs6YSbOM";
-
-		//when
-		Optional<Integer> optionalSts = youtubeClient.getSts(videoUrl);
-		int sts = 0;
-		if (optionalSts.isPresent()){
-			sts = optionalSts.get();
-			LOGGER.info("sts: "+sts);
-		}
-
-		//then
-		assertThat(sts).isGreaterThan(0);
-	}
+//	@Test
+//	public void whenGivenEmbedUrl_thenReturnsSTS() throws IOException {
+//		//given
+//		String videoUrl = "https://www.youtube.com/watch?v=yIVRs6YSbOM";
+//
+//		//when
+//		Optional<Integer> optionalSts = youtubeClient.getSts(videoUrl);
+//		int sts = 0;
+//		if (optionalSts.isPresent()){
+//			sts = optionalSts.get();
+//			LOGGER.info("sts: "+sts);
+//		}
+//
+//		//then
+//		assertThat(sts).isGreaterThan(0);
+//	}
 }
