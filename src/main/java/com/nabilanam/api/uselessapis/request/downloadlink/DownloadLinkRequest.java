@@ -1,6 +1,5 @@
-package com.nabilanam.api.uselessapis.request.DownloadLink;
+package com.nabilanam.api.uselessapis.request.downloadlink;
 
-import com.nabilanam.api.uselessapis.model.ApiHost;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,6 @@ import java.net.URL;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DownloadLinkApiRequest {
-
-	private ApiHost apiHost;
+public class DownloadLinkRequest {
 	private URL url;
 }

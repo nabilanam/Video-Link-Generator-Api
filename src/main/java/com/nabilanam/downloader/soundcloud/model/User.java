@@ -1,10 +1,10 @@
-package com.nabilanam.api.uselessapis.model.DownloadLink.SoundCloud;
+package com.nabilanam.downloader.soundcloud.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SoundCloudUser {
+public class User {
 	private long id;
 }
