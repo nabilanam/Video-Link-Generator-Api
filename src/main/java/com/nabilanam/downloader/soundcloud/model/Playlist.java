@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SoundCloudPlaylist {
-	private List<SoundCloudTrack> tracks;
+public class Playlist {
+	private List<Track> tracks;
 }

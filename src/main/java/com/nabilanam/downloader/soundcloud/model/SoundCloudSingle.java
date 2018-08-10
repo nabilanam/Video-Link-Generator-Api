@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.model.downloadlink;
+package com.nabilanam.downloader.soundcloud.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

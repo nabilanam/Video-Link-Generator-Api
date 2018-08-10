@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SoundCloudTrack {
+public class Track {
 	private long id;
 	private String title;
 }
