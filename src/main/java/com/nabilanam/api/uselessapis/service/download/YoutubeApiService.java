@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.service.downloadlink;
+package com.nabilanam.api.uselessapis.service.download;
 
 import com.nabilanam.downloader.youtube.YoutubeClient;
 import com.nabilanam.downloader.youtube.model.YoutubeStream;

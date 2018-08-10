@@ -1,8 +1,8 @@
-package com.nabilanam.api.uselessapis.controller.downloadlink;
+package com.nabilanam.api.uselessapis.controller.download;
 
-import com.nabilanam.api.uselessapis.request.downloadlink.DownloadLinkRequest;
-import com.nabilanam.api.uselessapis.service.downloadlink.SoundCloudApiService;
-import com.nabilanam.downloader.soundcloud.model.SoundCloudSingle;
+import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.service.download.SoundCloudApiService;
+import com.nabilanam.downloader.soundcloud.model.SoundCloudStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +28,7 @@ public class SoundCloudRequestController {
 					value = "single/",
 					headers = {"content-type=application/json"}
 			)
-	public SoundCloudSingle getDownloadLink(@RequestBody DownloadLinkRequest request) throws IOException {
+	public SoundCloudStream getDownloadLink(@RequestBody SingleDownloadRequest request) throws IOException {
 		return service.getDownloadLink(request.getUrl());
 	}
 
@@ -37,7 +37,7 @@ public class SoundCloudRequestController {
 					value = "playlist/",
 					headers = {"content-type=application/json"}
 			)
-	public List<SoundCloudSingle> getDownloadLinks(@RequestBody DownloadLinkRequest request) throws IOException {
+	public List<SoundCloudStream> getDownloadLinks(@RequestBody SingleDownloadRequest request) throws IOException {
 		return service.getPlaylistDownloadLinks(request.getUrl());
 	}
 }

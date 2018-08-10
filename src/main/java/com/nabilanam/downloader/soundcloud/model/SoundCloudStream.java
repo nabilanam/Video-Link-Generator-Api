@@ -7,7 +7,7 @@ import java.net.URL;
 
 @Data
 @AllArgsConstructor
-public class SoundCloudSingle {
+public class SoundCloudStream {
 
 	private String title;
 	private URL url;

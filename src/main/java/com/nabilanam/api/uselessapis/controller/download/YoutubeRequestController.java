@@ -1,7 +1,7 @@
-package com.nabilanam.api.uselessapis.controller.downloadlink;
+package com.nabilanam.api.uselessapis.controller.download;
 
-import com.nabilanam.api.uselessapis.request.downloadlink.DownloadLinkRequest;
-import com.nabilanam.api.uselessapis.service.downloadlink.YoutubeApiService;
+import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.service.download.YoutubeApiService;
 import com.nabilanam.downloader.youtube.model.YoutubeStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +28,7 @@ public class YoutubeRequestController {
 					value = "single/",
 					headers = {"content-type=application/json"}
 			)
-	public List<YoutubeStream> getDownloadLink(@RequestBody DownloadLinkRequest request) throws Exception {
+	public List<YoutubeStream> getDownloadLink(@RequestBody SingleDownloadRequest request) throws Exception {
 		return service.getDownloadLink(request.getUrl());
 	}
 
@@ -37,7 +37,7 @@ public class YoutubeRequestController {
 					value = "playlist/",
 					headers = {"content-type=application/json"}
 			)
-	public List<YoutubeStream> getDownloadLinks(@RequestBody DownloadLinkRequest request) throws IOException {
+	public List<YoutubeStream> getDownloadLinks(@RequestBody SingleDownloadRequest request) throws IOException {
 		return null;
 	}
 }

@@ -2,7 +2,7 @@ package com.nabilanam.downloader.soundcloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nabilanam.downloader.soundcloud.model.Playlist;
-import com.nabilanam.downloader.soundcloud.model.SoundCloudSingle;
+import com.nabilanam.downloader.soundcloud.model.SoundCloudStream;
 import com.nabilanam.downloader.soundcloud.model.Stream;
 import com.nabilanam.downloader.soundcloud.model.Track;
 import org.jsoup.Jsoup;
@@ -28,36 +28,36 @@ public class SoundCloudClient {
 		this.objectMapper = objectMapper;
 	}
 
-	public SoundCloudSingle getDownloadLink(URL trackUrl) throws IOException {
+	public SoundCloudStream getDownloadLink(URL trackUrl) throws IOException {
 		Document document = getJsoupDocument(trackUrl);
 		String id = getIdFromDocument(document);
 		String title = getTrackTitleFromDocument(document);
 		URL url = getCustomizedUrl(id);
 		Stream stream = objectMapper.readValue(url, Stream.class);
-		return new SoundCloudSingle(title, stream.getHttp_mp3_128_url());
+		return new SoundCloudStream(title, stream.getHttp_mp3_128_url());
 	}
 
-	public List<SoundCloudSingle> getDownloadLinks(URL playListUrl) throws IOException {
+	public List<SoundCloudStream> getDownloadLinks(URL playListUrl) throws IOException {
 		Document document = getJsoupDocument(playListUrl);
 		String playlistId = getIdFromDocument(document);
 		URL url = getCustomizedPlaylistUrl(playlistId);
 		Playlist playlist = objectMapper.readValue(url, Playlist.class);
 		List<Track> tracks = playlist.getTracks();
-		List<SoundCloudSingle> soundCloudSingles = new ArrayList<>();
+		List<SoundCloudStream> soundCloudStreams = new ArrayList<>();
 		if (tracks != null) {
-			SoundCloudSingle soundCloudSingle;
+			SoundCloudStream soundCloudStream;
 			for (Track track : tracks) {
 				if (track != null) {
-					soundCloudSingle = getDownloadLink(track.getTitle(), track.getId());
-					if (soundCloudSingle != null)
-						soundCloudSingles.add(soundCloudSingle);
+					soundCloudStream = getDownloadLink(track.getTitle(), track.getId());
+					if (soundCloudStream != null)
+						soundCloudStreams.add(soundCloudStream);
 				}
 			}
 		}
-		return soundCloudSingles;
+		return soundCloudStreams;
 	}
 
-	private SoundCloudSingle getDownloadLink(String title, long trackId) throws MalformedURLException {
+	private SoundCloudStream getDownloadLink(String title, long trackId) throws MalformedURLException {
 		URL url = getCustomizedUrl("" + trackId);
 		Stream stream;
 		try {
@@ -65,7 +65,7 @@ public class SoundCloudClient {
 		} catch (IOException e) {
 			return null;
 		}
-		return new SoundCloudSingle(title, stream.getHttp_mp3_128_url());
+		return new SoundCloudStream(title, stream.getHttp_mp3_128_url());
 	}
 
 	private URL getCustomizedUrl(String id) throws MalformedURLException {
