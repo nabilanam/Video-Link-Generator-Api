@@ -4,14 +4,12 @@ import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.YoutubeApiService;
 import com.nabilanam.downloader.youtube.model.YoutubeStream;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/service/download/youtube/")
 public class YoutubeRequestController {
