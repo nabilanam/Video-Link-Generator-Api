@@ -1,5 +1,6 @@
 package com.nabilanam.downloader.youtube.util;
 
+import com.nabilanam.downloader.util.RegexUtil;
 import com.nabilanam.downloader.youtube.cipher.CipherOperation;
 import com.nabilanam.downloader.youtube.cipher.ReverseCipherOperation;
 import com.nabilanam.downloader.youtube.cipher.SliceCipherOperation;
