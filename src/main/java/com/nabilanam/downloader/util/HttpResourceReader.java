@@ -1,4 +1,4 @@
-package com.nabilanam.downloader.youtube.util;
+package com.nabilanam.downloader.util;
 
 import org.springframework.stereotype.Component;
 
