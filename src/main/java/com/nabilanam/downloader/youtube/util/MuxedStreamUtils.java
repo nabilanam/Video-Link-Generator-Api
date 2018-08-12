@@ -1,5 +1,6 @@
 package com.nabilanam.downloader.youtube.util;
 
+import com.nabilanam.downloader.util.HttpResourceReader;
 import com.nabilanam.downloader.util.RegexUtil;
 import com.nabilanam.downloader.youtube.cipher.CipherOperation;
 import com.nabilanam.downloader.youtube.cipher.ReverseCipherOperation;
@@ -30,13 +31,13 @@ public class MuxedStreamUtils {
 
 	private final StreamUtils streamUtils;
 	private final RegexUtil regexUtil;
-	private final HttpFileReader httpFileReader;
+	private final HttpResourceReader httpResourceReader;
 
 	@Autowired
-	public MuxedStreamUtils(StreamUtils streamUtils, RegexUtil regexUtil, HttpFileReader httpFileReader) {
+	public MuxedStreamUtils(StreamUtils streamUtils, RegexUtil regexUtil, HttpResourceReader httpResourceReader) {
 		this.streamUtils = streamUtils;
 		this.regexUtil = regexUtil;
-		this.httpFileReader = httpFileReader;
+		this.httpResourceReader = httpResourceReader;
 	}
 
 	public List<MuxedStream> getMuxedStreams(String videoId) throws Exception {
@@ -136,7 +137,7 @@ public class MuxedStreamUtils {
 	}
 
 	private PlayerSource getPlayerSource(String srcUrl) throws Exception {
-		String srcData = httpFileReader.readDataFromUrlResource(srcUrl);
+		String srcData = httpResourceReader.read(srcUrl);
 
 		String jsFuncName = getJsFuncName(srcData);
 		Optional<String> groupOne;
@@ -239,7 +240,7 @@ public class MuxedStreamUtils {
 	}
 
 	private HashMap<String, String> getQueryMap(String infoUrl) throws IOException {
-		String encodedData = httpFileReader.readDataFromUrlResource(infoUrl);
+		String encodedData = httpResourceReader.read(infoUrl);
 		return createQueryMapFromData(encodedData);
 	}
 

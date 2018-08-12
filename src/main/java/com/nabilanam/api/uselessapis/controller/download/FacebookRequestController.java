@@ -21,7 +21,11 @@ public class FacebookRequestController {
 		this.service = service;
 	}
 
-	@PostMapping("single/")
+	@PostMapping
+			(
+					value = "single/",
+					headers = {"content-type=application/json"}
+			)
 	public List<FacebookStream> getDownloadLink(@RequestBody SingleDownloadRequest request) throws IOException {
 		return service.getDownloadLink(request.getUrl());
 	}

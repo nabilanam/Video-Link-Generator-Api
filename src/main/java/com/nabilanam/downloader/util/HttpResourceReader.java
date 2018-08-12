@@ -7,15 +7,36 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Component
-public class HttpFileReader {
+public class HttpResourceReader {
 
-	public String readDataFromUrlResource(String infoUrl) throws IOException {
-		HttpURLConnection con = (HttpURLConnection) new URL(infoUrl).openConnection();
+	public String read(String url) throws IOException {
+		HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 		con.setInstanceFollowRedirects(true);
 		con.setRequestMethod("GET");
 		con.setRequestProperty("User-Agent",
 				"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
 		int code = con.getResponseCode();
+		StringBuilder sb = readIntoStringBuilder(con, code);
+		con.disconnect();
+		return sb.toString();
+	}
+
+	public String read(String url,String[] headers,String[] headerValues) throws IOException {
+		HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+		con.setInstanceFollowRedirects(true);
+		for (int i=0; i<headers.length; i++){
+			con.setRequestProperty(headers[i],headerValues[i]);
+		}
+		con.setRequestMethod("GET");
+		con.setRequestProperty("User-Agent",
+				"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
+		int code = con.getResponseCode();
+		StringBuilder sb = readIntoStringBuilder(con, code);
+		con.disconnect();
+		return sb.toString();
+	}
+
+	private StringBuilder readIntoStringBuilder(HttpURLConnection con, int code) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		if (code == HttpURLConnection.HTTP_OK) {
 			try (InputStream stream = new BufferedInputStream(con.getInputStream())) {
@@ -27,7 +48,6 @@ public class HttpFileReader {
 				}
 			}
 		}
-		con.disconnect();
-		return sb.toString();
+		return sb;
 	}
 }
