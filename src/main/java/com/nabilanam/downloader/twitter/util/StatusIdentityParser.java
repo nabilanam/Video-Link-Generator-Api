@@ -1,6 +1,6 @@
 package com.nabilanam.downloader.twitter.util;
 
-import com.nabilanam.downloader.util.RegexUtil;
+import com.nabilanam.downloader.shared.util.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package com.nabilanam.downloader.youtube.util;
 
+import com.nabilanam.downloader.shared.model.Container;
 import com.nabilanam.downloader.youtube.model.*;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +18,13 @@ public class StreamUtils {
 		itagMap = new HashMap<>();
 		itagMap.put(5,new ItagDescriptor(Container.flv, AudioEncoding.mp3, VideoEncoding.h263, VideoQuality.Low144));
 		itagMap.put(6, new ItagDescriptor(Container.flv, AudioEncoding.mp3, VideoEncoding.h263, VideoQuality.Low240));
-		itagMap.put(13, new ItagDescriptor(Container.tgpp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low144));
-		itagMap.put(17, new ItagDescriptor(Container.tgpp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low144));
+		itagMap.put(13, new ItagDescriptor(Container.tgp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low144));
+		itagMap.put(17, new ItagDescriptor(Container.tgp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low144));
 		itagMap.put(18, new ItagDescriptor(Container.mp4, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.Medium360));
 		itagMap.put(22, new ItagDescriptor(Container.mp4, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.High720));
 		itagMap.put(34, new ItagDescriptor(Container.flv, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.Medium360));
 		itagMap.put(35, new ItagDescriptor(Container.flv, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.Medium480));
-		itagMap.put(36, new ItagDescriptor(Container.tgpp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low240));
+		itagMap.put(36, new ItagDescriptor(Container.tgp, AudioEncoding.aac, VideoEncoding.mp4v, VideoQuality.Low240));
 		itagMap.put(37, new ItagDescriptor(Container.mp4, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.High1080));
 		itagMap.put(38, new ItagDescriptor(Container.mp4, AudioEncoding.aac, VideoEncoding.h264, VideoQuality.High3072));
 		itagMap.put(43, new ItagDescriptor(Container.webm, AudioEncoding.vorbis, VideoEncoding.vp8, VideoQuality.Medium360));

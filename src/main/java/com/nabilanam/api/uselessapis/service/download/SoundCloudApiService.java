@@ -1,29 +1,29 @@
 package com.nabilanam.api.uselessapis.service.download;
 
-import com.nabilanam.downloader.soundcloud.SoundCloudClient;
-import com.nabilanam.downloader.soundcloud.model.SoundCloudStream;
-import com.nabilanam.downloader.soundcloud.model.SoundCloudStreamsWrapper;
+import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
+import com.nabilanam.downloader.shared.model.AudioStream;
+import com.nabilanam.downloader.shared.model.AudioStreamContainer;
+import com.nabilanam.downloader.soundcloud.SoundCloud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.net.URL;
 
 @Service
 public class SoundCloudApiService {
 
-	private final SoundCloudClient soundCloudClient;
+	private final SoundCloud soundCloud;
 
 	@Autowired
-	public SoundCloudApiService(SoundCloudClient soundCloudClient) {
-		this.soundCloudClient = soundCloudClient;
+	public SoundCloudApiService(SoundCloud soundCloud) {
+		this.soundCloud = soundCloud;
 	}
 
-	public SoundCloudStream getDownloadLink(URL trackUrl) throws IOException {
-		return soundCloudClient.getSoundCloudStream(trackUrl);
+	public AudioStream getSoundCloudAudioStream(URL trackUrl) throws ResourceNotFoundException {
+		return soundCloud.getAudioStream(trackUrl);
 	}
 
-	public SoundCloudStreamsWrapper getPlaylistDownloadLinks(URL playlistUrl) throws IOException {
-		return soundCloudClient.getDownloadLinks(playlistUrl);
+	public AudioStreamContainer getSoundCloudAudioStreamContainer(URL playlistUrl) throws ResourceNotFoundException {
+		return soundCloud.getAudioStreamContainer(playlistUrl);
 	}
 }

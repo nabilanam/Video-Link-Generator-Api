@@ -1,25 +1,23 @@
 package com.nabilanam.api.uselessapis.service.download;
 
-import com.nabilanam.downloader.youtube.YoutubeClient;
-import com.nabilanam.downloader.youtube.model.YoutubeStream;
-import com.nabilanam.downloader.youtube.model.YoutubeStreamsWrapper;
+import com.nabilanam.downloader.shared.model.VideoStreamContainer;
+import com.nabilanam.downloader.shared.model.VideoStreamProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
-import java.util.List;
 
 @Service
 public class YoutubeApiService {
 
-	private final YoutubeClient youtubeClient;
+	private final VideoStreamProvider youtubeStreamProvider;
 
 	@Autowired
-	public YoutubeApiService(YoutubeClient youtubeClient) {
-		this.youtubeClient = youtubeClient;
+	public YoutubeApiService(VideoStreamProvider youtubeStreamProvider) {
+		this.youtubeStreamProvider = youtubeStreamProvider;
 	}
 
-	public YoutubeStreamsWrapper getDownloadLink(URL trackUrl) throws Exception {
-		return youtubeClient.getDownloadLink(trackUrl);
+	public VideoStreamContainer getYoutubeVideoStreamContainer(URL trackUrl) throws Exception {
+		return youtubeStreamProvider.getVideoStreamContainer(trackUrl);
 	}
 }

@@ -1,5 +1,6 @@
 package com.nabilanam.downloader.youtube.model;
 
+import com.nabilanam.downloader.shared.model.Container;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;

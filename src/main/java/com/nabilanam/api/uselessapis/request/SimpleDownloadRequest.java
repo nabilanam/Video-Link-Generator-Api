@@ -12,6 +12,6 @@ import java.net.URL;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingleDownloadRequest {
+public class SimpleDownloadRequest {
 	private String url;
 }

@@ -1,13 +1,13 @@
-package com.nabilanam.downloader.soundcloud.model;
+package com.nabilanam.downloader.shared.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SoundCloudStream {
+public class AudioStream {
 
 	private String title;
-	private String thumbnailUrl;
+	private String thumbUrl;
 	private String url;
 }

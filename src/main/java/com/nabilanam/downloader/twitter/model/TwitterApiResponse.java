@@ -1,12 +1,7 @@
-package com.nabilanam.downloader.twitter.model.twitterapi;
+package com.nabilanam.downloader.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.net.URL;
-import java.util.List;
 
 
 @Data

@@ -1,4 +1,4 @@
-package com.nabilanam.downloader.twitter.model.twitterapi;
+package com.nabilanam.downloader.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

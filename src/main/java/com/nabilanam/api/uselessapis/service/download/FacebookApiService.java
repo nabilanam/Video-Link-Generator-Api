@@ -1,26 +1,24 @@
 package com.nabilanam.api.uselessapis.service.download;
 
-import com.nabilanam.downloader.facebook.FacebookClient;
-import com.nabilanam.downloader.facebook.model.FacebookStream;
-import com.nabilanam.downloader.facebook.model.FacebookStreamsWrapper;
+import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
+import com.nabilanam.downloader.shared.model.VideoStreamContainer;
+import com.nabilanam.downloader.shared.model.VideoStreamProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @Service
 public class FacebookApiService {
 
-	private final FacebookClient client;
+	private final VideoStreamProvider facebookStreamProvider;
 
 	@Autowired
-	public FacebookApiService(FacebookClient client) {
-		this.client = client;
+	public FacebookApiService(VideoStreamProvider facebookStreamProvider) {
+		this.facebookStreamProvider = facebookStreamProvider;
 	}
 
-	public FacebookStreamsWrapper getDownloadLink(URL url) throws IOException {
-		return client.getDownloadLink(url);
+	public VideoStreamContainer getFacebookVideoStreamContainer(URL url) throws ResourceNotFoundException {
+		return facebookStreamProvider.getVideoStreamContainer(url);
 	}
 }

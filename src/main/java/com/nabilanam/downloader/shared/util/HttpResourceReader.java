@@ -1,4 +1,4 @@
-package com.nabilanam.downloader.util;
+package com.nabilanam.downloader.shared.util;
 
 import org.springframework.stereotype.Component;
 

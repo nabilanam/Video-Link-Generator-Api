@@ -1,31 +1,31 @@
 package com.nabilanam.downloader.twitter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nabilanam.downloader.twitter.model.Container;
-import com.nabilanam.downloader.twitter.model.TwitterStream;
-import com.nabilanam.downloader.twitter.model.TwitterStreamsWrapper;
-import com.nabilanam.downloader.twitter.model.twitterapi.Media;
-import com.nabilanam.downloader.twitter.model.twitterapi.TwitterApiResponse;
-import com.nabilanam.downloader.twitter.model.twitterapi.Variant;
+import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
+import com.nabilanam.downloader.shared.model.Container;
+import com.nabilanam.downloader.shared.model.VideoStream;
+import com.nabilanam.downloader.shared.model.VideoStreamContainer;
+import com.nabilanam.downloader.shared.model.VideoStreamProvider;
+import com.nabilanam.downloader.shared.util.HttpResourceReader;
+import com.nabilanam.downloader.shared.util.RegexUtil;
+import com.nabilanam.downloader.twitter.model.Media;
+import com.nabilanam.downloader.twitter.model.TwitterApiResponse;
+import com.nabilanam.downloader.twitter.model.Variant;
 import com.nabilanam.downloader.twitter.util.StatusIdentityParser;
-import com.nabilanam.downloader.util.HttpResourceReader;
-import com.nabilanam.downloader.util.RegexUtil;
-import org.aspectj.weaver.ast.Var;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class TwitterClient {
+public class TwitterStreamProvider implements VideoStreamProvider {
 
 	private final RegexUtil regexUtil;
 	private final StatusIdentityParser identityParser;
@@ -33,36 +33,41 @@ public class TwitterClient {
 	private final ObjectMapper objectMapper;
 
 	@Autowired
-	public TwitterClient(RegexUtil regexUtil, StatusIdentityParser identityParser, HttpResourceReader httpResourceReader, ObjectMapper objectMapper) {
+	public TwitterStreamProvider(RegexUtil regexUtil, StatusIdentityParser identityParser, HttpResourceReader httpResourceReader, ObjectMapper objectMapper) {
 		this.regexUtil = regexUtil;
 		this.identityParser = identityParser;
 		this.httpResourceReader = httpResourceReader;
 		this.objectMapper = objectMapper;
 	}
 
-	public TwitterStreamsWrapper getTwitterStreamWrapper(String url) throws Exception {
-		String statusId = getStatusId(url);
-		String apiUrl = getCustomizedApiUrl(statusId);
-		String videoUrl = getCustomizedVideoUrl(statusId);
-
-		TwitterApiResponse apiResponse = getTwitterApiResponse(apiUrl, videoUrl);
-		TwitterStreamsWrapper streamsWrapper = new TwitterStreamsWrapper();
-
-		String text = apiResponse.getText();
-		int lastIndex = text.lastIndexOf(" https:");
-		streamsWrapper.setText(text.substring(0,lastIndex));
-
-		Media media = null;
+	public VideoStreamContainer getVideoStreamContainer(URL url) throws ResourceNotFoundException {
+		VideoStreamContainer container;
 		try {
-			media = apiResponse.getExtended_entities().getMedia().get(0);
-		} catch (RuntimeException ex){
-			throw new Exception("Video is hosted outside of twitter");
-		}
-		streamsWrapper.setThumbnailUrl(media.getMedia_url_https().toString());
+			String statusId = getStatusId(url.toString());
+			String apiUrl = getCustomizedApiUrl(statusId);
+			String videoUrl = getCustomizedVideoUrl(statusId);
 
-		List<TwitterStream> streams = getTwitterStreams(media);
-		streamsWrapper.setStreams(streams);
-		return streamsWrapper;
+			TwitterApiResponse apiResponse = getTwitterApiResponse(apiUrl, videoUrl);
+
+			Media media;
+			try {
+				media = apiResponse.getExtended_entities().getMedia().get(0);
+			} catch (RuntimeException ex) {
+				throw new Exception("Video is hosted outside of twitter");
+			}
+
+			String text = apiResponse.getText();
+			int lastIndex = text.lastIndexOf(" https:");
+
+			String title = text.substring(0, lastIndex);
+			String thumbnailUrl = media.getMedia_url_https().toString();
+			List<VideoStream> videoStreams = getTwitterStreamList(media);
+
+			container = new VideoStreamContainer(title, thumbnailUrl, videoStreams);
+		} catch (Exception ex) {
+			throw new ResourceNotFoundException();
+		}
+		return container;
 	}
 
 	private TwitterApiResponse getTwitterApiResponse(String apiUrl, String videoUrl) throws IOException {
@@ -71,22 +76,21 @@ public class TwitterClient {
 		return objectMapper.readValue(json, TwitterApiResponse.class);
 	}
 
-	private List<TwitterStream> getTwitterStreams(Media media) {
-		List<TwitterStream> streams = new ArrayList<>();
+	private List<VideoStream> getTwitterStreamList(Media media) {
+		List<VideoStream> videoStreams = new ArrayList<>();
 		List<Variant> variants = media.getVideo_info().getVariants();
 		for (Variant variant : variants) {
 			if (variant.getContent_type().contains("mp4")) {
 
-				TwitterStream stream = new TwitterStream();
-				stream.setUrl(variant.getUrl().toString());
-				stream.setContainer(Container.mp4);
+				String url = variant.getUrl().toString();
+				Optional<String> groupOne = regexUtil.getGroupOne(url, ".+?(\\d+x\\d+)(?=/\\w+)");
+				String quality = groupOne.orElse("");
 
-				Optional<String> groupOne = regexUtil.getGroupOne(variant.getUrl().toString(), ".+?(\\d+x\\d+)(?=/\\w+)");
-				groupOne.ifPresent(stream::setResolution);
-				streams.add(stream);
+				VideoStream videoStream = new VideoStream(url, quality, Container.mp4);
+				videoStreams.add(videoStream);
 			}
 		}
-		return streams;
+		return videoStreams;
 	}
 
 	private String getCustomizedApiUrl(String statusId) {

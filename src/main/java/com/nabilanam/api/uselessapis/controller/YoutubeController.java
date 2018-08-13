@@ -1,8 +1,8 @@
 package com.nabilanam.api.uselessapis.controller;
 
-import com.nabilanam.api.uselessapis.request.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.request.SimpleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.YoutubeApiService;
-import com.nabilanam.downloader.youtube.model.YoutubeStreamsWrapper;
+import com.nabilanam.downloader.shared.model.VideoStreamContainer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +14,24 @@ import java.net.URL;
 @CrossOrigin
 @RestController
 @RequestMapping("/service/download/youtube/")
-@Api(tags ="Youtube", description = "video download")
-public class YoutubeRequestController {
+@Api(tags = "Youtube", description = "Public video")
+public class YoutubeController {
 
 	private final YoutubeApiService service;
 
 	@Autowired
-	public YoutubeRequestController(YoutubeApiService service) {
+	public YoutubeController(YoutubeApiService service) {
 		this.service = service;
 	}
 
-	@ApiOperation("provides download information for a public video")
+	@ApiOperation("Provides download information for a public video.")
 	@PostMapping
 			(
 					value = "single/",
 					headers = {"content-type=application/json"},
-					produces= MediaType.APPLICATION_JSON_VALUE
+					produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public YoutubeStreamsWrapper getDownloadLink(@RequestBody SingleDownloadRequest request) throws Exception {
-		return service.getDownloadLink(new URL(request.getUrl()));
+	public VideoStreamContainer getVideoStreamContainer(@RequestBody SimpleDownloadRequest request) throws Exception {
+		return service.getYoutubeVideoStreamContainer(new URL(request.getUrl()));
 	}
 }
