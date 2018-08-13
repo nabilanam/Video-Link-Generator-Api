@@ -21,7 +21,7 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.nabilanam.api.uselessapis.controller.download"))
+				.apis(RequestHandlerSelectors.basePackage("com.nabilanam.api.uselessapis.controller"))
 				.paths(PathSelectors.ant("/service/**"))
 				.build()
 				.apiInfo(apiInfo());
