@@ -2,6 +2,7 @@ package com.nabilanam.api.uselessapis.service.download;
 
 import com.nabilanam.downloader.youtube.YoutubeClient;
 import com.nabilanam.downloader.youtube.model.YoutubeStream;
+import com.nabilanam.downloader.youtube.model.YoutubeStreamsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class YoutubeApiService {
 		this.youtubeClient = youtubeClient;
 	}
 
-	public List<YoutubeStream> getDownloadLink(URL trackUrl) throws Exception {
+	public YoutubeStreamsWrapper getDownloadLink(URL trackUrl) throws Exception {
 		return youtubeClient.getDownloadLink(trackUrl);
 	}
 }

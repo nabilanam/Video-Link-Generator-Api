@@ -22,7 +22,7 @@ public class YoutubeClient {
 		this.identityFinderUtil = identityFinderUtil;
 	}
 
-	public List<YoutubeStream> getDownloadLink(URL url) throws Exception {
+	public YoutubeStreamsWrapper getDownloadLink(URL url) throws Exception {
 		String videoId = identityFinderUtil.parseVideoId(url.toString());
 		List<MuxedStream> muxedStreams = muxedStreamUtils.getMuxedStreams(videoId);
 		List<YoutubeStream> youtubeStreams = new ArrayList<>();
@@ -30,17 +30,18 @@ public class YoutubeClient {
 			YoutubeStream youtubeStream = getYoutubeSingleFromMuxedStream(stream);
 			youtubeStreams.add(youtubeStream);
 		}
-		return youtubeStreams;
+		MuxedStream stream = muxedStreams.get(0);
+		String title = stream.getTitle();
+		String thumbnailUrl = stream.getThumbnailUrl();
+		return new YoutubeStreamsWrapper(title,thumbnailUrl,youtubeStreams);
 	}
 
 	private YoutubeStream getYoutubeSingleFromMuxedStream(MuxedStream stream) {
-		String title = stream.getTitle();
 		String url = stream.getUrl();
-		String thumbnailUrl = stream.getThumbnailUrl();
 		ItagDescriptor itagDescriptor = stream.getItagDescriptor();
 		String container = getVideoContainer(itagDescriptor.getContainer());
 		String videoQuality = getVideoQuality(itagDescriptor.getVideoQuality());
-		return new YoutubeStream(title, url, thumbnailUrl, container, videoQuality);
+		return new YoutubeStream(url, container, videoQuality);
 	}
 
 	private String getVideoContainer(Container container) {
