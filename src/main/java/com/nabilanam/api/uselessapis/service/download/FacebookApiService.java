@@ -2,6 +2,7 @@ package com.nabilanam.api.uselessapis.service.download;
 
 import com.nabilanam.downloader.facebook.FacebookClient;
 import com.nabilanam.downloader.facebook.model.FacebookStream;
+import com.nabilanam.downloader.facebook.model.FacebookStreamsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class FacebookApiService {
 		this.client = client;
 	}
 
-	public List<FacebookStream> getDownloadLink(URL url) throws IOException {
+	public FacebookStreamsWrapper getDownloadLink(URL url) throws IOException {
 		return client.getDownloadLink(url);
 	}
 }

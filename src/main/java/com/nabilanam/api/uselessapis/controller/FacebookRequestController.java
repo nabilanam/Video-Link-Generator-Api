@@ -3,6 +3,7 @@ package com.nabilanam.api.uselessapis.controller;
 import com.nabilanam.api.uselessapis.request.SingleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.FacebookApiService;
 import com.nabilanam.downloader.facebook.model.FacebookStream;
+import com.nabilanam.downloader.facebook.model.FacebookStreamsWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class FacebookRequestController {
 					headers = {"content-type=application/json"},
 					produces= MediaType.APPLICATION_JSON_VALUE
 			)
-	public List<FacebookStream> getDownloadLink(@RequestBody SingleDownloadRequest request) throws IOException {
+	public FacebookStreamsWrapper getDownloadLink(@RequestBody SingleDownloadRequest request) throws IOException {
 		return service.getDownloadLink(new URL(request.getUrl()));
 	}
 }

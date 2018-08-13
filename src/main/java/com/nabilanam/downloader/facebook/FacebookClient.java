@@ -1,6 +1,7 @@
 package com.nabilanam.downloader.facebook;
 
 import com.nabilanam.downloader.facebook.model.FacebookStream;
+import com.nabilanam.downloader.facebook.model.FacebookStreamsWrapper;
 import com.nabilanam.downloader.facebook.model.VideoQuality;
 import com.nabilanam.downloader.util.RegexUtil;
 import org.jsoup.Jsoup;
@@ -31,10 +32,13 @@ public class FacebookClient {
 		this.regexUtil = regexUtil;
 	}
 
-	public List<FacebookStream> getDownloadLink(URL url) throws IOException {
+	public FacebookStreamsWrapper getDownloadLink(URL url) throws IOException {
 		Document document = getVideoDocument(url);
 		String script = getTimeSliceScript(document);
-		return getFacebookStream(script);
+		List<FacebookStream> streams = getFacebookStream(script);
+		String title = getTitle(document.body().html());
+		String thumbnailUrl = getThumbnailUrl(document.body().html());
+		return new FacebookStreamsWrapper(title,thumbnailUrl,streams);
 	}
 
 	private List<FacebookStream> getFacebookStream(String script) throws MalformedURLException {
@@ -84,6 +88,22 @@ public class FacebookClient {
 			}
 		}
 		return "";
+	}
+
+	private String getTitle(String html){
+		String regex = "\"_50f7\">(.+?)(?=<)";
+		Optional<String> groupOne = regexUtil.getGroupOne(html, regex);
+		return groupOne.orElse("");
+	}
+
+	private String getThumbnailUrl(String html){
+		String regex = "\"_1p6f[\\s\\S]+?(?==)=\"(.+?)(?=\")";
+		Optional<String> groupOne = regexUtil.getGroupOne(html, regex);
+		String url = "";
+		if (groupOne.isPresent()){
+			url = groupOne.get().replace(";","&");
+		}
+		return url;
 	}
 
 	private Document getVideoDocument(URL url) throws IOException {
