@@ -5,11 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 
 @SpringBootApplication
-		(exclude =
-				{JacksonAutoConfiguration.class},
+		(
+				exclude =
+						{JacksonAutoConfiguration.class},
 				scanBasePackages = {
 						"com.nabilanam.api.uselessapis",
-						"com.nabilanam.downloader"})
+						"com.nabilanam.downloader"}
+		)
 public class UselessapisApplication {
 
 	public static void main(String[] args) {

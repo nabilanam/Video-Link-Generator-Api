@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 public class TwitterStreamsWrapper {
 	private String text;
-	private URL thumbnailUrl;
+	private String thumbnailUrl;
 	private List<TwitterStream> streams;
 }

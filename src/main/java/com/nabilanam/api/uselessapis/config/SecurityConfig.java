@@ -39,16 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticationEntryPoint(restAuthenticationEntryPoint)
 				.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.OPTIONS,"/service/**").permitAll()
-				.antMatchers("/managed/**").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/**").access("hasRole('ROLE_USER')")
-//				.and()
-//				.headers()
-//				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
-//				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET"))
-////				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Max-Age", "3600"))
-//				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true"))
-//				.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"))
+				.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+				.antMatchers("/service/**").access("hasRole('ROLE_USER')")
 				.and()
 				.httpBasic();
 	}

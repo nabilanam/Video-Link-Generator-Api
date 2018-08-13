@@ -10,5 +10,5 @@ import java.net.URL;
 public class SoundCloudStream {
 
 	private String title;
-	private URL url;
+	private String url;
 }

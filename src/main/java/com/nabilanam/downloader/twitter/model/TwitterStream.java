@@ -10,5 +10,5 @@ public class TwitterStream {
 
 	private Container container;
 	private String resolution;
-	private URL url;
+	private String url;
 }

@@ -13,5 +13,5 @@ import java.net.URL;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SingleDownloadRequest {
-	private URL url;
+	private String url;
 }

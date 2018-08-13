@@ -34,7 +34,7 @@ public class SoundCloudClient {
 		String title = getTrackTitleFromDocument(document);
 		URL url = getCustomizedUrl(id);
 		Stream stream = objectMapper.readValue(url, Stream.class);
-		return new SoundCloudStream(title, stream.getHttp_mp3_128_url());
+		return getNewSoundCloudStream(title, stream);
 	}
 
 	public List<SoundCloudStream> getDownloadLinks(URL playListUrl) throws IOException {
@@ -65,7 +65,11 @@ public class SoundCloudClient {
 		} catch (IOException e) {
 			return null;
 		}
-		return new SoundCloudStream(title, stream.getHttp_mp3_128_url());
+		return getNewSoundCloudStream(title, stream);
+	}
+
+	private SoundCloudStream getNewSoundCloudStream(String title, Stream stream) {
+		return new SoundCloudStream(title, stream.getHttp_mp3_128_url().toString());
 	}
 
 	private URL getCustomizedUrl(String id) throws MalformedURLException {

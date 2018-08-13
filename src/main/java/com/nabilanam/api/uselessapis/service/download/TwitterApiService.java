@@ -5,6 +5,8 @@ import com.nabilanam.downloader.twitter.model.TwitterStreamsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
+
 @Service
 public class TwitterApiService {
 
@@ -15,7 +17,7 @@ public class TwitterApiService {
 		this.client = client;
 	}
 
-	public TwitterStreamsWrapper getTwitterStreamsWrapper(String url) throws Exception {
-		return client.getTwitterStreamWrapper(url);
+	public TwitterStreamsWrapper getTwitterStreamsWrapper(URL url) throws Exception {
+		return client.getTwitterStreamWrapper(url.toString());
 	}
 }

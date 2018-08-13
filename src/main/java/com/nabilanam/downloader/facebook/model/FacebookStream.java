@@ -10,6 +10,6 @@ import java.net.URL;
 @AllArgsConstructor
 public class FacebookStream {
 
-	private URL url;
+	private String url;
 	private VideoQuality videoQuality;
 }

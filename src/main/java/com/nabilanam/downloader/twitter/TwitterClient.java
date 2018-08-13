@@ -58,7 +58,7 @@ public class TwitterClient {
 		} catch (RuntimeException ex){
 			throw new Exception("Video is hosted outside of twitter");
 		}
-		streamsWrapper.setThumbnailUrl(media.getMedia_url_https());
+		streamsWrapper.setThumbnailUrl(media.getMedia_url_https().toString());
 
 		List<TwitterStream> streams = getTwitterStreams(media);
 		streamsWrapper.setStreams(streams);
@@ -78,7 +78,7 @@ public class TwitterClient {
 			if (variant.getContent_type().contains("mp4")) {
 
 				TwitterStream stream = new TwitterStream();
-				stream.setUrl(variant.getUrl());
+				stream.setUrl(variant.getUrl().toString());
 				stream.setContainer(Container.mp4);
 
 				Optional<String> groupOne = regexUtil.getGroupOne(variant.getUrl().toString(), ".+?(\\d+x\\d+)(?=/\\w+)");

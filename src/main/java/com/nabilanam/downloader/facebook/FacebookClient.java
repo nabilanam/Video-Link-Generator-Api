@@ -39,22 +39,24 @@ public class FacebookClient {
 
 	private List<FacebookStream> getFacebookStream(String script) throws MalformedURLException {
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
-		FacebookStream stream;
 		List<FacebookStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
 			String data = groupOne.get();
 			HashMap<String, String> map = createQueryMapFromData(data);
 			for (String key : map.keySet()) {
 				if (key.equals("hd_src")) {
-					stream = new FacebookStream(new URL(map.get(key)), VideoQuality.HD);
-					streams.add(stream);
+					addToFacebookStreams(streams, map, key, VideoQuality.HD);
 				} else if (key.equals("sd_src")) {
-					stream = new FacebookStream(new URL(map.get(key)), VideoQuality.SD);
-					streams.add(stream);
+					addToFacebookStreams(streams, map, key, VideoQuality.SD);
 				}
 			}
 		}
 		return streams;
+	}
+
+	private void addToFacebookStreams(List<FacebookStream> streams, HashMap<String, String> map, String key, VideoQuality hd) {
+		FacebookStream stream = new FacebookStream(map.get(key), hd);
+		streams.add(stream);
 	}
 
 	private HashMap<String, String> createQueryMapFromData(String queryString) {
