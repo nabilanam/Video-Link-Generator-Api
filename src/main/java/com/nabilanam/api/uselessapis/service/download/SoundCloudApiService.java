@@ -2,12 +2,12 @@ package com.nabilanam.api.uselessapis.service.download;
 
 import com.nabilanam.downloader.soundcloud.SoundCloudClient;
 import com.nabilanam.downloader.soundcloud.model.SoundCloudStream;
+import com.nabilanam.downloader.soundcloud.model.SoundCloudStreamsWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @Service
 public class SoundCloudApiService {
@@ -20,10 +20,10 @@ public class SoundCloudApiService {
 	}
 
 	public SoundCloudStream getDownloadLink(URL trackUrl) throws IOException {
-		return soundCloudClient.getDownloadLink(trackUrl);
+		return soundCloudClient.getSoundCloudStream(trackUrl);
 	}
 
-	public List<SoundCloudStream> getPlaylistDownloadLinks(URL playlistUrl) throws IOException {
+	public SoundCloudStreamsWrapper getPlaylistDownloadLinks(URL playlistUrl) throws IOException {
 		return soundCloudClient.getDownloadLinks(playlistUrl);
 	}
 }

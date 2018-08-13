@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.model.security;
+package com.nabilanam.api.uselessapis.model;
 
 import lombok.Getter;
 import lombok.Setter;

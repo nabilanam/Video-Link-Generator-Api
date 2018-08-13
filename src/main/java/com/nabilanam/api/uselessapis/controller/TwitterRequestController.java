@@ -1,6 +1,6 @@
-package com.nabilanam.api.uselessapis.controller.download;
+package com.nabilanam.api.uselessapis.controller;
 
-import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.request.SingleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.TwitterApiService;
 import com.nabilanam.downloader.twitter.model.TwitterStreamsWrapper;
 import io.swagger.annotations.Api;
@@ -24,7 +24,7 @@ public class TwitterRequestController {
 		this.service = service;
 	}
 
-	@ApiOperation("provides download url for a public video")
+	@ApiOperation("provides download information for a public video")
 	@PostMapping
 			(
 					value = "single/",

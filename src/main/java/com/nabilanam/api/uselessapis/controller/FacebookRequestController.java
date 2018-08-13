@@ -1,10 +1,9 @@
-package com.nabilanam.api.uselessapis.controller.download;
+package com.nabilanam.api.uselessapis.controller;
 
-import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.request.SingleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.FacebookApiService;
 import com.nabilanam.downloader.facebook.model.FacebookStream;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,7 +26,7 @@ public class FacebookRequestController {
 		this.service = service;
 	}
 
-	@ApiOperation("provides download url for a public video")
+	@ApiOperation("provides download information for a public video")
 	@PostMapping
 			(
 					value = "single/",

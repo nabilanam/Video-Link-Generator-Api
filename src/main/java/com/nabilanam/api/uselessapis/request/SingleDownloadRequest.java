@@ -1,4 +1,4 @@
-package com.nabilanam.api.uselessapis.request.download;
+package com.nabilanam.api.uselessapis.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

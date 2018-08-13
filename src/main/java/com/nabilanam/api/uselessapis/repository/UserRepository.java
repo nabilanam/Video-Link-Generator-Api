@@ -1,6 +1,6 @@
-package com.nabilanam.api.uselessapis.repository.security;
+package com.nabilanam.api.uselessapis.repository;
 
-import com.nabilanam.api.uselessapis.model.security.User;
+import com.nabilanam.api.uselessapis.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

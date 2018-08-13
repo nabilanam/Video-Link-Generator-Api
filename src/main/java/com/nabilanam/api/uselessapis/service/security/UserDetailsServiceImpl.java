@@ -1,7 +1,7 @@
 package com.nabilanam.api.uselessapis.service.security;
 
-import com.nabilanam.api.uselessapis.model.security.User;
-import com.nabilanam.api.uselessapis.repository.security.UserRepository;
+import com.nabilanam.api.uselessapis.model.User;
+import com.nabilanam.api.uselessapis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;

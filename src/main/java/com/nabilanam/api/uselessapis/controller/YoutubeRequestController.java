@@ -1,8 +1,7 @@
-package com.nabilanam.api.uselessapis.controller.download;
+package com.nabilanam.api.uselessapis.controller;
 
-import com.nabilanam.api.uselessapis.request.download.SingleDownloadRequest;
+import com.nabilanam.api.uselessapis.request.SingleDownloadRequest;
 import com.nabilanam.api.uselessapis.service.download.YoutubeApiService;
-import com.nabilanam.downloader.youtube.model.YoutubeStream;
 import com.nabilanam.downloader.youtube.model.YoutubeStreamsWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -27,7 +24,7 @@ public class YoutubeRequestController {
 		this.service = service;
 	}
 
-	@ApiOperation("provides download url for a public video")
+	@ApiOperation("provides download information for a public video")
 	@PostMapping
 			(
 					value = "single/",

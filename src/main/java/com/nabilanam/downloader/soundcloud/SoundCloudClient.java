@@ -1,10 +1,8 @@
 package com.nabilanam.downloader.soundcloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nabilanam.downloader.soundcloud.model.Playlist;
-import com.nabilanam.downloader.soundcloud.model.SoundCloudStream;
-import com.nabilanam.downloader.soundcloud.model.Stream;
-import com.nabilanam.downloader.soundcloud.model.Track;
+import com.nabilanam.downloader.soundcloud.model.*;
+import com.nabilanam.downloader.util.RegexUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -16,74 +14,80 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SoundCloudClient {
 
-	private final String clientKey = "OgPiZDOMYXnoiMl3ugzdAB5jGBGtroyf";
+	private final String clientKey = "PmqbpuYsHUQ7ZYrW6qUlPcdpVFETRzc0";
 	private final ObjectMapper objectMapper;
+	private final RegexUtil regexUtil;
 
 	@Autowired
-	public SoundCloudClient(ObjectMapper objectMapper) {
+	public SoundCloudClient(ObjectMapper objectMapper, RegexUtil regexUtil) {
 		this.objectMapper = objectMapper;
+		this.regexUtil = regexUtil;
 	}
 
-	public SoundCloudStream getDownloadLink(URL trackUrl) throws IOException {
-		Document document = getJsoupDocument(trackUrl);
-		String id = getIdFromDocument(document);
-		String title = getTrackTitleFromDocument(document);
-		URL url = getCustomizedUrl(id);
-		Stream stream = objectMapper.readValue(url, Stream.class);
-		return getNewSoundCloudStream(title, stream);
-	}
-
-	public List<SoundCloudStream> getDownloadLinks(URL playListUrl) throws IOException {
+	public SoundCloudStreamsWrapper getDownloadLinks(URL playListUrl) throws IOException {
 		Document document = getJsoupDocument(playListUrl);
 		String playlistId = getIdFromDocument(document);
-		URL url = getCustomizedPlaylistUrl(playlistId);
+		String title = getTitleFromDocument(document);
+		String thumbnailUrl = getThumbnailUrlFromDocument(document);
+		URL url = getCustomizedPlaylistApiUrl(playlistId);
 		Playlist playlist = objectMapper.readValue(url, Playlist.class);
 		List<Track> tracks = playlist.getTracks();
-		List<SoundCloudStream> soundCloudStreams = new ArrayList<>();
-		if (tracks != null) {
-			SoundCloudStream soundCloudStream;
-			for (Track track : tracks) {
-				if (track != null) {
-					soundCloudStream = getDownloadLink(track.getTitle(), track.getId());
-					if (soundCloudStream != null)
-						soundCloudStreams.add(soundCloudStream);
-				}
+		List<SoundCloudStream> streams = new ArrayList<>();
+		SoundCloudStream soundCloudStream;
+		for (Track track : tracks) {
+			if (track != null) {
+				soundCloudStream = getSoundCloudStream(track.getTitle(), track.getArtwork_url(), track.getId());
+				if (soundCloudStream != null)
+					streams.add(soundCloudStream);
 			}
 		}
-		return soundCloudStreams;
+		return new SoundCloudStreamsWrapper(title, thumbnailUrl, streams);
 	}
 
-	private SoundCloudStream getDownloadLink(String title, long trackId) throws MalformedURLException {
-		URL url = getCustomizedUrl("" + trackId);
+	public SoundCloudStream getSoundCloudStream(URL trackUrl) throws IOException {
+		Document document = getJsoupDocument(trackUrl);
+		String id = getIdFromDocument(document);
+		String title = getTitleFromDocument(document);
+		String thumbnailUrl = getThumbnailUrlFromDocument(document);
+		URL url = getCustomizedStreamApiUrl(id);
+		Stream stream = objectMapper.readValue(url, Stream.class);
+		return new SoundCloudStream(title, thumbnailUrl, stream.getHttp_mp3_128_url().toString());
+	}
+
+	private SoundCloudStream getSoundCloudStream(String title, String thumbnailUrl, long trackId) throws MalformedURLException {
+		URL url = getCustomizedStreamApiUrl("" + trackId);
 		Stream stream;
 		try {
 			stream = objectMapper.readValue(url, Stream.class);
 		} catch (IOException e) {
 			return null;
 		}
-		return getNewSoundCloudStream(title, stream);
+		return new SoundCloudStream(title, thumbnailUrl, stream.getHttp_mp3_128_url().toString());
 	}
 
-	private SoundCloudStream getNewSoundCloudStream(String title, Stream stream) {
-		return new SoundCloudStream(title, stream.getHttp_mp3_128_url().toString());
-	}
-
-	private URL getCustomizedUrl(String id) throws MalformedURLException {
+	private URL getCustomizedStreamApiUrl(String id) throws MalformedURLException {
 		String urlString = "https://api.soundcloud.com/i1/tracks/PLACE_HOLDER/streams?client_id=PLACE_HOLDER";
 		urlString = urlString.replaceFirst("PLACE_HOLDER", id);
 		urlString = urlString.replaceFirst("PLACE_HOLDER", clientKey);
 		return new URL(urlString);
 	}
 
-	private URL getCustomizedPlaylistUrl(String id) throws MalformedURLException {
+	private URL getCustomizedPlaylistApiUrl(String id) throws MalformedURLException {
 		String urlString = "http://api.soundcloud.com/playlists/PLACE_HOLDER?client_id=PLACE_HOLDER";
 		urlString = urlString.replaceFirst("PLACE_HOLDER", id);
 		urlString = urlString.replaceFirst("PLACE_HOLDER", clientKey);
 		return new URL(urlString);
+	}
+
+	private String getThumbnailUrlFromDocument(Document document) {
+		String imgRegex = "img\\ssrc=\"(.+?)(?=\")";
+		Optional<String> groupOne = regexUtil.getGroupOne(document.html(), imgRegex);
+		return groupOne.orElse("");
 	}
 
 	private String getIdFromDocument(Document document) {
@@ -92,7 +96,7 @@ public class SoundCloudClient {
 		return content.split(":")[2];
 	}
 
-	private String getTrackTitleFromDocument(Document document) {
+	private String getTitleFromDocument(Document document) {
 		Elements metas = document.select("meta[property=twitter:title]");
 		return metas.first().attr("content");
 	}

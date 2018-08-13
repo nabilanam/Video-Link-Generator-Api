@@ -3,11 +3,13 @@ package com.nabilanam.downloader.soundcloud.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
-public class SoundCloudStream {
+public class SoundCloudStreamsWrapper {
 
 	private String title;
 	private String thumbnailUrl;
-	private String url;
+	private List<SoundCloudStream> streams;
 }
