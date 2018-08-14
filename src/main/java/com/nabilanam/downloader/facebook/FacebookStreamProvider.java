@@ -82,14 +82,17 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 
 	private String getTimeSliceScript(Document document) {
 		String timeSliceScript = "";
+		boolean found = false;
 		Elements scripts = document.getElementsByTag("script");
 		for (Element script : scripts) {
 			for (DataNode node : script.dataNodes()) {
 				if (node.getWholeData().startsWith("require(\"TimeSlice\")")) {
 					timeSliceScript = node.getWholeData();
+					found = true;
 					break;
 				}
 			}
+			if (found) break;
 		}
 		return timeSliceScript;
 	}
