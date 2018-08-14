@@ -16,10 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class FacebookStreamProvider implements VideoStreamProvider {
@@ -36,39 +33,43 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 		try {
 			Document document = getVideoDocument(url);
 			String script = getTimeSliceScript(document);
-			List<VideoStream> videoStreams = getFacebookStream(script);
+			List<VideoStream> streams = getFacebookStream(script);
 			String title = getTitle(document.body().html());
 			String thumbnailUrl = getThumbnailUrl(document.body().html());
-			container = new VideoStreamContainer(title, thumbnailUrl, videoStreams);
+			container = new VideoStreamContainer(title, thumbnailUrl, streams);
 		} catch (Exception ex) {
 			throw new ResourceNotFoundException();
 		}
-		System.out.println("######################");
-		System.out.println("CONTAINER : " + container);
-		System.out.println("######################");
 		return container;
 	}
 
 	private List<VideoStream> getFacebookStream(String script) {
+		System.out.println(script);
+
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
-		List<VideoStream> videoStreams = new ArrayList<>();
+		List<VideoStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
+			System.out.println("group one present");
+
 			String data = groupOne.get();
+			System.out.println("group one : " + data);
+
 			HashMap<String, String> map = createQueryMapFromData(data);
+			System.out.println(Arrays.toString(map.keySet().toArray()));
+
 			for (String key : map.keySet()) {
 				if (key.equals("hd_src")) {
-					addToVideoStreams(videoStreams, map, key, "HD");
+					VideoStream videoStream = new VideoStream(map.get(key), "HD", Container.mp4);
+					streams.add(videoStream);
 				} else if (key.equals("sd_src")) {
-					addToVideoStreams(videoStreams, map, key, "SD");
+					VideoStream videoStream = new VideoStream(map.get(key), "SD", Container.mp4);
+					streams.add(videoStream);
 				}
 			}
 		}
-		return videoStreams;
-	}
+		System.out.println("after isPresent");
 
-	private void addToVideoStreams(List<VideoStream> streams, HashMap<String, String> map, String key, String quality) {
-		VideoStream videoStream = new VideoStream(map.get(key), quality, Container.mp4);
-		streams.add(videoStream);
+		return streams;
 	}
 
 	private HashMap<String, String> createQueryMapFromData(String queryString) {
