@@ -36,7 +36,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 		try {
 			Document document = getVideoDocument(url);
 			String script = getTimeSliceScript(document);
-			List<VideoStream> streams = getFacebookStream(script);
+			List<VideoStream> streams = getFacebookStreams(script);
 			String title = getTitle(document.body().html());
 			String thumbnailUrl = getThumbnailUrl(document.body().html());
 			container = new VideoStreamContainer(title, thumbnailUrl, streams);
@@ -46,7 +46,8 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 		return container;
 	}
 
-	private List<VideoStream> getFacebookStream(String script) {
+	private List<VideoStream> getFacebookStreams(String script) {
+		System.out.println("script: "+script);
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
 		List<VideoStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
@@ -61,7 +62,6 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 					streams.add(videoStream);
 				}
 			}
-			System.out.println(streams);
 		}
 		return streams;
 	}
