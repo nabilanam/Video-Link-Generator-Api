@@ -2,7 +2,7 @@ package com.nabilanam.api.uselessapis.controller;
 
 import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
 import com.nabilanam.api.uselessapis.request.SimpleDownloadRequest;
-import com.nabilanam.api.uselessapis.service.download.SoundCloudApiService;
+import com.nabilanam.api.uselessapis.service.download.SoundCloudService;
 import com.nabilanam.downloader.shared.model.AudioStream;
 import com.nabilanam.downloader.shared.model.AudioStreamContainer;
 import io.swagger.annotations.Api;
@@ -20,10 +20,10 @@ import java.net.URL;
 @Api(tags = "SoundCloud", description = "Audio track, playlist")
 public class SoundCloudController {
 
-	private final SoundCloudApiService service;
+	private final SoundCloudService service;
 
 	@Autowired
-	public SoundCloudController(SoundCloudApiService service) {
+	public SoundCloudController(SoundCloudService service) {
 		this.service = service;
 	}
 

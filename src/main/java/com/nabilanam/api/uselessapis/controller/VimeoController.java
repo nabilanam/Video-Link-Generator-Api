@@ -16,15 +16,15 @@ import java.net.URL;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/service/download/facebook/")
-@Api(tags = "Facebook", description = "Public video")
-public class FacebookController implements VideoStreamController {
+@RequestMapping("/service/download/vimeo/")
+@Api(tags = "Vimeo", description = "Public video")
+public class VimeoController implements VideoStreamController {
 
-	private final VideoService facebookService;
+	private final VideoService vimeoService;
 
 	@Autowired
-	public FacebookController(VideoService facebookService) {
-		this.facebookService = facebookService;
+	public VimeoController(VideoService vimeoService) {
+		this.vimeoService = vimeoService;
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class FacebookController implements VideoStreamController {
 			)
 	@ApiOperation("Provides download information for a public video.")
 	public VideoStreamContainer getVideoStreamContainer(@RequestBody SimpleDownloadRequest request) throws IOException, ResourceNotFoundException {
-		return facebookService.getVideoStreamContainer(new URL(request.getUrl()));
+		return vimeoService.getVideoStreamContainer(new URL(request.getUrl()));
 	}
 }

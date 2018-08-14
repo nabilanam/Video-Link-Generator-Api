@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import java.net.URL;
 
 @Service
-public class SoundCloudApiService {
+public class SoundCloudService {
 
 	private final SoundCloud soundCloud;
 
 	@Autowired
-	public SoundCloudApiService(SoundCloud soundCloud) {
+	public SoundCloudService(SoundCloud soundCloud) {
 		this.soundCloud = soundCloud;
 	}
 

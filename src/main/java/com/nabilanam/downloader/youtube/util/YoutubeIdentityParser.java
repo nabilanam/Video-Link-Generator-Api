@@ -1,18 +1,19 @@
 package com.nabilanam.downloader.youtube.util;
 
+import com.nabilanam.downloader.shared.contract.IdentityParser;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
 @Component
-public class IdentityFinderUtil {
+public class YoutubeIdentityParser implements IdentityParser {
 
-	public String parseVideoId(@NotNull String url) {
-		if (url.isEmpty()) return "";
+	public String parseTrackId(String url) throws Exception {
+		if (url.isEmpty())
+			throw new Exception();
 
 		String regularUrlRegex = ".+youtube\\..+?/watch.*?v=(.*?)(?:&|/|$)";
 		String shortUrlRegex = ".+youtu\\.be/(.*?)(?:\\?|&|/|$)";
@@ -31,11 +32,15 @@ public class IdentityFinderUtil {
 			videoId = findVideoId(url, embedUrlRegex);
 		}
 
+		if (videoId.isEmpty())
+			throw new Exception();
+
 		return videoId;
 	}
 
-	public String parsePlaylistId(String url) {
-		if (url.isEmpty()) return "";
+	public String parsePlaylistId(String url) throws Exception {
+		if (url.isEmpty())
+			throw new Exception();
 
 		String regularUrlRegex = ".+youtube\\..+?/playlist.*?list=(.*?)(?:&|/|$)";
 		String compositeUrlRegex = ".+youtube\\..+?/watch.*?list=(.*?)(?:&|/|$)";
@@ -60,6 +65,9 @@ public class IdentityFinderUtil {
 			videoId = findPlaylistId(url, embedCompositeUrlRegex);
 		}
 
+		if (videoId.isEmpty())
+			throw new Exception();
+
 		return videoId;
 	}
 
@@ -76,7 +84,7 @@ public class IdentityFinderUtil {
 		return id;
 	}
 
-	private boolean validateVideoId(@NotNull String id) {
+	private boolean validateVideoId(String id) {
 		if (id.isEmpty())
 			return false;
 
@@ -100,7 +108,7 @@ public class IdentityFinderUtil {
 		return id;
 	}
 
-	private boolean validatePlaylistId(@NotNull String id) {
+	private boolean validatePlaylistId(String id) {
 		if (id.isEmpty())
 			return false;
 

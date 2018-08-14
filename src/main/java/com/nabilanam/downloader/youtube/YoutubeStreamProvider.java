@@ -1,13 +1,13 @@
 package com.nabilanam.downloader.youtube;
 
 import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
+import com.nabilanam.downloader.shared.contract.IdentityParser;
+import com.nabilanam.downloader.shared.contract.VideoStreamProvider;
 import com.nabilanam.downloader.shared.model.VideoStream;
 import com.nabilanam.downloader.shared.model.VideoStreamContainer;
-import com.nabilanam.downloader.shared.model.VideoStreamProvider;
 import com.nabilanam.downloader.youtube.model.ItagDescriptor;
 import com.nabilanam.downloader.youtube.model.MuxedStream;
 import com.nabilanam.downloader.youtube.model.VideoQuality;
-import com.nabilanam.downloader.youtube.util.IdentityFinderUtil;
 import com.nabilanam.downloader.youtube.util.MuxedStreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,18 +20,18 @@ import java.util.List;
 public class YoutubeStreamProvider implements VideoStreamProvider {
 
 	private final MuxedStreamUtils muxedStreamUtils;
-	private final IdentityFinderUtil identityFinderUtil;
+	private final IdentityParser youtubeIdentityParser;
 
 	@Autowired
-	public YoutubeStreamProvider(MuxedStreamUtils muxedStreamUtils, IdentityFinderUtil identityFinderUtil) {
+	public YoutubeStreamProvider(MuxedStreamUtils muxedStreamUtils, IdentityParser youtubeIdentityParser) {
 		this.muxedStreamUtils = muxedStreamUtils;
-		this.identityFinderUtil = identityFinderUtil;
+		this.youtubeIdentityParser = youtubeIdentityParser;
 	}
 
 	public VideoStreamContainer getVideoStreamContainer(URL url) throws ResourceNotFoundException {
 		VideoStreamContainer container;
 		try {
-			String videoId = identityFinderUtil.parseVideoId(url.toString());
+			String videoId = youtubeIdentityParser.parseTrackId(url.toString());
 			List<MuxedStream> muxedStreams = muxedStreamUtils.getMuxedStreams(videoId);
 			List<VideoStream> videoStreams = new ArrayList<>();
 			for (MuxedStream stream : muxedStreams) {

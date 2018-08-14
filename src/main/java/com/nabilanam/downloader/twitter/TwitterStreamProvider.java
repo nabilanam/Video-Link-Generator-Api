@@ -5,7 +5,7 @@ import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
 import com.nabilanam.downloader.shared.model.Container;
 import com.nabilanam.downloader.shared.model.VideoStream;
 import com.nabilanam.downloader.shared.model.VideoStreamContainer;
-import com.nabilanam.downloader.shared.model.VideoStreamProvider;
+import com.nabilanam.downloader.shared.contract.VideoStreamProvider;
 import com.nabilanam.downloader.shared.util.HttpResourceReader;
 import com.nabilanam.downloader.shared.util.RegexUtil;
 import com.nabilanam.downloader.twitter.model.Media;

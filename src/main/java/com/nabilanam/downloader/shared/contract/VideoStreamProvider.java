@@ -1,6 +1,7 @@
-package com.nabilanam.downloader.shared.model;
+package com.nabilanam.downloader.shared.contract;
 
 import com.nabilanam.api.uselessapis.exception.ResourceNotFoundException;
+import com.nabilanam.downloader.shared.model.VideoStreamContainer;
 
 import java.net.URL;
 
