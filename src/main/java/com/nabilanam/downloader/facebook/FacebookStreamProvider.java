@@ -61,6 +61,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 					streams.add(videoStream);
 				}
 			}
+			System.out.println(streams);
 		}
 		return streams;
 	}
