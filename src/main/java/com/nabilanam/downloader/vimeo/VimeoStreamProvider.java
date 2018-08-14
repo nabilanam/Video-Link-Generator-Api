@@ -43,7 +43,7 @@ public class VimeoStreamProvider implements VideoStreamProvider {
 			Document document = getJsoupDocument(url);
 			Config config = objectMapper.readValue(getConfigUrl(document), Config.class);
 			String title = config.getVideo().getTitle();
-			String thumbUrl = config.getVideo().getThumbs().getBase();
+			String thumbUrl = config.getVideo().getThumbs().getThumbUrl();
 			List<VideoStream> streams = new ArrayList<>();
 			List<Progressive> list = config.getRequest().getFiles().getProgressive();
 			for (Progressive progressive : list) {
