@@ -47,7 +47,6 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 	}
 
 	private List<VideoStream> getFacebookStreams(String script) {
-		System.out.println("script: "+script);
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
 		List<VideoStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
@@ -82,15 +81,17 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 	}
 
 	private String getTimeSliceScript(Document document) {
+		String timeSliceScript = "";
 		Elements scripts = document.getElementsByTag("script");
 		for (Element script : scripts) {
 			for (DataNode node : script.dataNodes()) {
 				if (node.getWholeData().startsWith("require(\"TimeSlice\")")) {
-					return node.getWholeData();
+					timeSliceScript = node.getWholeData();
+					break;
 				}
 			}
 		}
-		return "";
+		return timeSliceScript;
 	}
 
 	private String getTitle(String html) {
