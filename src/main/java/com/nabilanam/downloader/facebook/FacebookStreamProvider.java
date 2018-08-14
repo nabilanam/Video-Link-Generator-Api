@@ -16,7 +16,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FacebookStreamProvider implements VideoStreamProvider {
@@ -44,19 +47,11 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 	}
 
 	private List<VideoStream> getFacebookStream(String script) {
-		System.out.println(script);
-
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
 		List<VideoStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
-			System.out.println("group one present");
-
 			String data = groupOne.get();
-			System.out.println("group one : " + data);
-
 			HashMap<String, String> map = createQueryMapFromData(data);
-			System.out.println(Arrays.toString(map.keySet().toArray()));
-
 			for (String key : map.keySet()) {
 				if (key.equals("hd_src")) {
 					VideoStream videoStream = new VideoStream(map.get(key), "HD", Container.mp4);
@@ -67,8 +62,6 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 				}
 			}
 		}
-		System.out.println("after isPresent");
-
 		return streams;
 	}
 
