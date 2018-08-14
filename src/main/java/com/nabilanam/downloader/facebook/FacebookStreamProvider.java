@@ -46,7 +46,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 		return container;
 	}
 
-	private List<VideoStream> getFacebookStreams(String script) {
+	private List<VideoStream> getFacebookStreams(String script) throws Exception {
 		Optional<String> groupOne = regexUtil.getGroupOne(script, "(\"sd_src_no_ratelimit\":.+?)(?=,\"hd_tag\")");
 		List<VideoStream> streams = new ArrayList<>();
 		if (groupOne.isPresent()) {
@@ -61,7 +61,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 					streams.add(videoStream);
 				}
 			}
-		}
+		} else throw new Exception();
 		return streams;
 	}
 
@@ -80,7 +80,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 		return map;
 	}
 
-	private String getTimeSliceScript(Document document) {
+	private String getTimeSliceScript(Document document) throws Exception {
 		String timeSliceScript = "";
 		boolean found = false;
 		Elements scripts = document.getElementsByTag("script");
@@ -94,6 +94,7 @@ public class FacebookStreamProvider implements VideoStreamProvider {
 			}
 			if (found) break;
 		}
+		if (timeSliceScript.isEmpty()) throw new Exception();
 		return timeSliceScript;
 	}
 
