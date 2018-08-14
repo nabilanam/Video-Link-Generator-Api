@@ -1,15 +1,25 @@
 package com.nabilanam.downloader.youtube.util;
 
 import com.nabilanam.downloader.shared.contract.IdentityParser;
+import com.nabilanam.downloader.shared.util.RegexUtil;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Data
 @Component
 public class YoutubeIdentityParser implements IdentityParser {
+
+	private final RegexUtil regexUtil;
+
+	@Autowired
+	public YoutubeIdentityParser(RegexUtil regexUtil) {
+		this.regexUtil = regexUtil;
+	}
 
 	public String parseTrackId(String url) throws Exception {
 		if (url.isEmpty())
@@ -18,18 +28,23 @@ public class YoutubeIdentityParser implements IdentityParser {
 		String regularUrlRegex = ".+youtube\\..+?/watch.*?v=(.*?)(?:&|/|$)";
 		String shortUrlRegex = ".+youtu\\.be/(.*?)(?:\\?|&|/|$)";
 		String embedUrlRegex = ".+youtube\\..+?/embed/(.*?)(?:\\?|&|/|$)";
+		String videoId = "";
 
 		// https://www.youtube.com/watch?v=yIVRs6YSbOM
-		String videoId = findVideoId(url, regularUrlRegex);
+		Optional<String> groupOne = regexUtil.getGroupOne(url, regularUrlRegex);
+		if (groupOne.isPresent())
+			videoId = groupOne.get();
 
 		// https://youtu.be/yIVRs6YSbOM
 		if (videoId.isEmpty()) {
-			videoId = findVideoId(url, shortUrlRegex);
+			groupOne = regexUtil.getGroupOne(url, shortUrlRegex);
+			videoId = groupOne.orElse("");
 		}
 
 		// https://www.youtube.com/embed/yIVRs6YSbOM
 		if (videoId.isEmpty()) {
-			videoId = findVideoId(url, embedUrlRegex);
+			groupOne = regexUtil.getGroupOne(url, embedUrlRegex);
+			videoId = groupOne.orElse("");
 		}
 
 		if (videoId.isEmpty())
@@ -71,18 +86,18 @@ public class YoutubeIdentityParser implements IdentityParser {
 		return videoId;
 	}
 
-	private String findVideoId(String url, String regex) {
-		String id = "";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(url);
-		if (matcher.matches()) {
-			id = matcher.group(1);
-			if (!validateVideoId(id)) {
-				id = "";
-			}
-		}
-		return id;
-	}
+//	private String findVideoId(String url, String regex) {
+//		String id = "";
+//		Pattern pattern = Pattern.compile(regex);
+//		Matcher matcher = pattern.matcher(url);
+//		if (matcher.matches()) {
+//			id = matcher.group(1);
+//			if (!validateVideoId(id)) {
+//				id = "";
+//			}
+//		}
+//		return id;
+//	}
 
 	private boolean validateVideoId(String id) {
 		if (id.isEmpty())
